@@ -1,0 +1,44 @@
+5/16/2026 
+
+This will be my notes/write up for the pickle rick room on tryhackme. I have never attempted this room before and I am not very experienced, but hands-on work is 
+just as important as theory. Attempt 1!
+
+The goal is to find 3 ingredients (flags).
+
+
+I am starting by configuring OpenVPN to connect via tryhackme's servers so I can use my own machine. After that is complete, I am going to run a simple nmap scan to
+check open ports/services. The command is: sudo nmap -sV -sC [IP Address]. After this scan is complete I see that port 80 and port 22 is open. I am going to check 
+the webpage of this room. After checking, the main page doesn't show much BUT after checking the code behind the page with ctrl+shift+I, the username is found!
+[R1ckRul3s]
+
+My next thought is to see if there are any hidden pages on the website. Anything that can reveal a sliver more of information. Aha!
+
+ffuf indeed revealed hidden pages. I checked assets, and then robots.txt- [Wubbalubbadubdub] Could this be a password? I attempted SSH but got denied instantly.
+(Public Key?) Maybe there is a hidden login page... I decided to go with dirb to try again for more hidden pages. Nothing new... hmmm. 
+
+Upon a little research I found that the ffuf tool has a flag to include extensions. I included the .php and .txt extension this time around and what do you know? 
+There is a login.php! The above user/pass combo did indeed work. I am logged in! time to explore. Hmmm...
+Aside from the command page there are 4 other pages that I am denied access to.  In the command section I tried the first thing I thought of knowing this runs
+off a linux server- ls. I found new files! Time to check them out.
+
+clue.txt told me to look around the filesystem for the ingredient. 
+
+Sup3rS3cretPickl3Ingred.txt revealed [mr. meseek hair] which is FLAG #1! YAYYYYY
+
+I will explore the filesystem now. I type ls /home and find there is a rick directory. I dive deeper: finding a second ingredients file in /home/rick. (Though I 
+thought it was another directory at first.) the cat command is denied. 
+
+A glitch happened at this point with the machine- connection was dropped, when I restarted my vpn and returned to the tryhackme website, the answers were completed 
+it gave me props. I only had 1 answer at this point! So.. I reset my progress and continue where I left off.
+
+I tried cat, less, and tac- None of which worked for the second ingredient file. Upon realizing there is a space in the name (lol) I instead did 
+less /home/rick/"second ingredients" which worked! 1 jerry tear FLAG #2 LETS GOOOOOOO
+
+For the third... why not check /root? upon sudo ls /root i find third.txt
+
+fleeb juice 3RD AND FINAL FLAG YESSSSSS
+
+
+
+Not the best report but keep in mind I am new to this :) More coming soon! For my first room, this went quite smoothly aside from the technical glitch lol. 
+
